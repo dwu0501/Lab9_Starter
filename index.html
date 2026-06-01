@@ -87,6 +87,15 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "5315970207cf4a4a95750eeab292a93d"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+  </script>
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -97,11 +106,187 @@
       let operator = document.querySelector('#operator').value;
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
+    
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    
+
+    //Step 2
+    let logBtn = errorBtns[0]
+    logBtn.addEventListener('click', (event) =>{
+      console.log('Console Log button');
+    });
+
+    let errBtn = errorBtns[1]
+    errBtn.addEventListener('click', (event) =>{
+      console.error('Console Error button clicked');
+    });
+
+    let countBtn = errorBtns[2]
+    countBtn.addEventListener('click', (event) =>{
+      console.count('count button');
+    });
+
+    let warnBtn = errorBtns[3]
+    warnBtn.addEventListener('click', (event) =>{
+      console.warn('Console Warn button clicked');
+    });
+
+    let assertBtn = errorBtns[4]
+    assertBtn.addEventListener('click', (event) =>{
+      const x = 1;
+      const y = 2;
+      const reason = 'x is expected to be greater than y';
+      console.assert(x > y, {x, y, reason});
+    });
+
+    let clearBtn = errorBtns[5]
+    clearBtn.addEventListener('click', (event) =>{
+      console.clear();
+    });
+
+    let dirBtn = errorBtns[6]
+    dirBtn.addEventListener('click', (event) =>{
+      console.dir(dirBtn);
+    });
+
+    let dirxmlBtn = errorBtns[7]
+    dirxmlBtn.addEventListener('click', (event) =>{
+      console.dirxml(dirBtn);
+    });
+
+    let groupStartBtn = errorBtns[8]
+    groupStartBtn.addEventListener('click', (event) =>{
+      console.group();
+    });
+
+    let groupEndBtn = errorBtns[9]
+    groupEndBtn.addEventListener('click', (event) =>{
+      console.groupEnd();
+    });
+
+    let tableBtn = errorBtns[10]
+    tableBtn.addEventListener('click', (event) =>{  
+      let people = [
+      {
+        first: 'René',
+        last: 'Magritte',
+      },
+      {
+        first: 'Chaim',
+        last: 'Soutine',
+        birthday: '18930113',
+      },
+      {
+        first: 'Henri',
+        last: 'Matisse',
+      }
+    ];
+    console.table(people);
+    });
+
+    let startTimerBtn = errorBtns[11]
+    startTimerBtn.addEventListener('click', (event) =>{
+      console.time();
+    });
+
+    let endTimerBtn = errorBtns[12]
+    endTimerBtn.addEventListener('click', (event) =>{
+      console.timeEnd();
+    }); 
+
+    let traceBtn = errorBtns[13]
+    traceBtn.addEventListener('click', (event) =>{
+      const click = () => { deep(); };
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { console.trace(); };
+      click();
+    });
+
+    
+    //Step 3
+
+    //common error of text editor not notifying that variable is not previously declared
+    try{
+      for (i = 0; i < Btns.length; i++){
+        console.log("button "+ i +" = ", Btns[i]);
+      }
+    }catch(error){
+      console.error("Runtime error: ", error)
+    }
+
+    //Common mismatch error of IndexOutofBounds with runtime var declaration error
+    try{
+      for (i = 0; i < Btns.length; i++){
+        console.log("button "+ i +" = ", Btns[i]);
+      }
+    }catch(error){
+      console.error("IndexOutofBounds Error:", error.message);
+    }finally {
+      console.log("Step 3 completed")
+    }
+
+    //Step 4
+
+    class JSONParseError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "JSONParseError";
+      }
+    }
+
+    function readUser(json) {
+      let user = JSON.parse(json);
+
+      if (!user.name) {
+        throw new JSONParseError("Missing required property: name");
+      }
+
+      return user;
+    }
+
+    try {
+      let user = readUser('{"age": 25}');
+    } catch (err) {
+      if (err instanceof JSONParseError) {
+        console.error("Invalid data: " + err.message);
+      } else if (err instanceof SyntaxError) {
+        console.error("JSON Syntax Error: " + err.message);
+      } else {
+        throw err;
+      }
+    }
+
+    try {
+      let user = readUser('{"name": "Alex"}');
+    } catch (err) {
+      if (err instanceof JSONParseError) {
+        console.error("Invalid data: " + err.message);
+      } else if (err instanceof SyntaxError) {
+        console.error("JSON Syntax Error: " + err.message);
+      } else {
+        throw err;
+      }
+    }
+
+    console.log("Step 4 completed");    
+
+    //Step 5
+
+    window.onerror = function (message, source, lineno, colno, error) {
+      console.log("Global error triggered:", message);
+    };
+    let globalBtn = errorBtns[14]
+    globalBtn.addEventListener('click', (event) =>{
+      
+      throw new Error("Trigger Global Error Button")
+
+    });
+
   </script>
 </body>
 
