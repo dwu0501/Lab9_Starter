@@ -221,13 +221,11 @@
 
     //Common mismatch error of IndexOutofBounds with runtime var declaration error
     try{
-      for (i = 0; i < Btns.length; i++){
+      for (i = 0; i < Btns.length; i++){ //i is not declared but stills works at runtime. Use strict if want an error for this
         console.log("button "+ i +" = ", Btns[i]);
       }
     }catch(error){
-      console.error("IndexOutofBounds Error:", error.message);
-    }finally {
-      console.log("Step 3 completed")
+      console.error("Reference error:", error.message);
     }
 
     //Step 4
@@ -273,7 +271,6 @@
       }
     }
 
-    console.log("Step 4 completed");    
 
     //Step 5
 
